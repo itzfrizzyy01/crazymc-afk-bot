@@ -6,35 +6,29 @@ const PASSWORD = "2211133445"; // AuthMe password
 
 function createBot() {
   const bot = mineflayer.createBot({
-    host: "play.crazymc.net", // Java server
+    host: "play.crazymc.net",
     username: "mr_trolling",
     version: false,           // auto-detect
     viewDistance: "normal"    // 16 chunks
   });
 
-  // Show all chat in your console
-  bot.on("chat", (username, message) => {
-    if (username === bot.username) return;
-    console.log(`[CHAT] <${username}> ${message}`);
-  });
-
   bot.on("spawn", () => {
-    console.log("✅ Bot spawned on the server!");
+    console.log("✅ Bot spawned!");
 
     if (firstJoin) {
       setTimeout(() => {
         console.log("↪ Registering...");
         bot.chat(`/register ${PASSWORD} ${PASSWORD}`);
-      }, 2000);
+      }, 1000);
       firstJoin = false;
     } else {
       setTimeout(() => {
         console.log("↪ Logging in...");
         bot.chat(`/login ${PASSWORD}`);
-      }, 2000);
+      }, 1000);
     }
 
-    // chain commands after login/register
+    // Commands after login/register
     setTimeout(() => {
       console.log("↪ Sending /lifesteal");
       bot.chat("/lifesteal");
@@ -51,20 +45,40 @@ function createBot() {
       }, 5000);
 
     }, 5000);
+
+    // Small movement to look real
+    setInterval(() => {
+      bot.setControlState("forward", true);
+      setTimeout(() => bot.setControlState("forward", false), 500);
+    }, 8000);
+  });
+
+  bot.on("chat", (username, message) => {
+    if (username !== bot.username) {
+      console.log(`[CHAT] <${username}> ${message}`);
+    }
   });
 
   bot.on("kicked", (reason) => {
-    console.log("❌ Kicked from server:", reason);
+    console.log("❌ Kicked:", reason);
+    reconnect();
   });
 
   bot.on("error", (err) => {
     console.log("❌ Error:", err);
+    reconnect();
   });
 
   bot.on("end", () => {
-    console.log("🔄 Bot disconnected, reconnecting in 5s...");
-    setTimeout(createBot, 5000);
+    console.log("🔄 Disconnected.");
+    reconnect();
   });
+
+  function reconnect() {
+    const delay = 1000 + Math.floor(Math.random() * 4000); // 1–5s random
+    console.log(`⏳ Reconnecting in ${delay / 1000}s...`);
+    setTimeout(createBot, delay);
+  }
 }
 
 createBot();
