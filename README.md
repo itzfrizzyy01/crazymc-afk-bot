@@ -1,0 +1,1 @@
+# crazymc-afk-bot
