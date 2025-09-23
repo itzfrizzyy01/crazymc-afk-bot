@@ -7,9 +7,9 @@ const PASSWORD = "2211133445"; // AuthMe password
 function createBot() {
   const bot = mineflayer.createBot({
     host: "play.crazymc.net",
-    username: "mr_trolling",
-    version: false,           // auto-detect
-    viewDistance: "normal"    // 16 chunks
+    username: "mr_trollerz",
+    version: 1.21,           // auto-detect
+    viewDistance: "16"    // 16 chunks
   });
 
   bot.on("spawn", () => {
@@ -35,7 +35,7 @@ function createBot() {
 
       setTimeout(() => {
         console.log("↪ Sending /tpa pro_itz");
-        bot.chat("/tpa pro_itz");
+        bot.chat("/tpa itzfrizzyy");
 
         setTimeout(() => {
           console.log("↪ Sneaking (crouch forever)");
