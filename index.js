@@ -8,8 +8,8 @@ function createBot() {
   const bot = mineflayer.createBot({
     host: "play.crazymc.net",
     username: "mr_trollerz",
-    version: 1.21,           // auto-detect
-    viewDistance: "16"    // 16 chunks
+    version: "1.21",        // keep string for stability
+    viewDistance: "16"
   });
 
   bot.on("spawn", () => {
@@ -34,7 +34,7 @@ function createBot() {
       bot.chat("/lifesteal");
 
       setTimeout(() => {
-        console.log("↪ Sending /tpa pro_itz");
+        console.log("↪ Sending /tpa itzfrizzyy");
         bot.chat("/tpa itzfrizzyy");
 
         setTimeout(() => {
@@ -75,7 +75,7 @@ function createBot() {
   });
 
   function reconnect() {
-    const delay = 1000 + Math.floor(Math.random() * 4000); // 1–5s random
+    const delay = 60 * 1000; // 1 minute
     console.log(`⏳ Reconnecting in ${delay / 1000}s...`);
     setTimeout(createBot, delay);
   }
